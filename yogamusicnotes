@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yoga Teacher Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;700&display=swap');
+        
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: #F5F5F0; /* Soft stone color */
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+
+        .playlist-card {
+            transition: all 0.3s ease;
+        }
+        
+        .playlist-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Custom Scrollbar for notes area */
+        .notes-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .notes-container::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .notes-container::-webkit-scrollbar-thumb {
+            background: #D1D5DB; 
+            border-radius: 4px;
+        }
+        .notes-container::-webkit-scrollbar-thumb:hover {
+            background: #9CA3AF; 
+        }
+
+        /* Tab Animations */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .view-section.active {
+            display: block;
+        }
+
+        .nav-item.active {
+            color: #059669; /* emerald-600 */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-stone-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-spa text-emerald-600 text-2xl"></i>
+                <h1 class="text-xl font-bold tracking-wide text-emerald-900">Shanti Studio</h1>
+            </div>
+            <button onclick="document.getElementById('about-modal').classList.remove('hidden')" class="text-stone-500 hover:text-emerald-600 transition">
+                <i class="fa-regular fa-circle-question text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-3xl mx-auto px-4 py-6 w-full">
+        
+        <!-- View 1: Music Selector -->
+        <section id="view-music" class="view-section active space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-stone-700 flex items-center gap-2">
+                        <i class="fa-solid fa-music text-emerald-500"></i> Session Playlists
+                    </h2>
+                    <span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">Tap to play</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Playlist 1: Vinyasa -->
+                    <div class="playlist-card bg-stone-50 p-3 rounded-xl border border-stone-200 hover:border-emerald-300 cursor-pointer group" onclick="loadPlaylist('37i9dQZF1DWTofcvJ2Dvma')">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="bg-orange-100 p-2 rounded-full text-orange-600 group-hover:bg-orange-200 transition">
+                                <i class="fa-solid fa-fire-flame-curved"></i>
+                            </div>
+                            <h3 class="font-semibold text-stone-700">Vinyasa Flow</h3>
+                        </div>
+                        <p class="text-xs text-stone-500">Upbeat, rhythmic, and energizing beats.</p>
+                    </div>
+
+                    <!-- Playlist 2: Hatha/Gentle -->
+                    <div class="playlist-card bg-stone-50 p-3 rounded-xl border border-stone-200 hover:border-emerald-300 cursor-pointer group" onclick="loadPlaylist('3y91KMHMfYOsjfNwRIPwjy')">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="bg-emerald-100 p-2 rounded-full text-emerald-600 group-hover:bg-emerald-200 transition">
+                                <i class="fa-solid fa-leaf"></i>
+                            </div>
+                            <h3 class="font-semibold text-stone-700">Gentle Hatha</h3>
+                        </div>
+                        <p class="text-xs text-stone-500">Steady, calming instrumental soundscapes.</p>
+                    </div>
+
+                    <!-- Playlist 3: Yin/Restorative -->
+                    <div class="playlist-card bg-stone-50 p-3 rounded-xl border border-stone-200 hover:border-emerald-300 cursor-pointer group" onclick="loadPlaylist('2YvE3R6lNKNijg4dxwCF8U')">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="bg-indigo-100 p-2 rounded-full text-indigo-600 group-hover:bg-indigo-200 transition">
+                                <i class="fa-solid fa-moon"></i>
+                            </div>
+                            <h3 class="font-semibold text-stone-700">Deep Yin</h3>
+                        </div>
+                        <p class="text-xs text-stone-500">Slow, deep ambient textures for long holds.</p>
+                    </div>
+
+                    <!-- Playlist 4: Meditation -->
+                    <div class="playlist-card bg-stone-50 p-3 rounded-xl border border-stone-200 hover:border-emerald-300 cursor-pointer group" onclick="loadPlaylist('6pULM2jgeorxb8ogISdbDA')">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="bg-sky-100 p-2 rounded-full text-sky-600 group-hover:bg-sky-200 transition">
+                                <i class="fa-solid fa-om"></i>
+                            </div>
+                            <h3 class="font-semibold text-stone-700">Meditation</h3>
+                        </div>
+                        <p class="text-xs text-stone-500">Peaceful silence and singing bowls.</p>
+                    </div>
+                </div>
+
+                <!-- Spotify Player Container -->
+                <div id="player-container" class="mt-6 bg-stone-900 rounded-xl overflow-hidden h-[352px] flex items-center justify-center relative shadow-lg">
+                    <div id="placeholder-msg" class="text-center p-8">
+                        <i class="fa-brands fa-spotify text-4xl text-green-500 mb-3"></i>
+                        <p class="text-stone-400">Select a playlist above to load the player.</p>
+                    </div>
+                    <iframe id="spotify-frame" class="hidden w-full h-full" src="" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 2: Notes -->
+        <section id="view-notes" class="view-section space-y-6">
+            
+            <!-- Note Input -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
+                <h2 class="text-lg font-bold mb-4 text-stone-700 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-emerald-500"></i> Class Notes
+                </h2>
+                
+                <form id="note-form" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-stone-500 mb-1 uppercase">Date</label>
+                            <input type="date" id="note-date" class="w-full bg-stone-50 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500 transition" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-stone-500 mb-1 uppercase">Class Type</label>
+                            <select id="note-type" class="w-full bg-stone-50 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500 transition">
+                                <option>Vinyasa</option>
+                                <option>Hatha</option>
+                                <option>Yin</option>
+                                <option>Restorative</option>
+                                <option>Power</option>
+                                <option>Private</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-stone-500 mb-1 uppercase">Reflections / Sequence</label>
+                        <textarea id="note-content" rows="3" placeholder="E.g., Peak pose was Crow. Student X had knee pain..." class="w-full bg-stone-50 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500 transition resize-none" required></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200 flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Save Note
+                    </button>
+                </form>
+            </div>
+
+            <!-- Notes List -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 h-[400px] flex flex-col">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-stone-700">History</h2>
+                    <button onclick="clearAllNotes()" class="text-xs text-red-400 hover:text-red-600 underline">Clear All</button>
+                </div>
+                
+                <div id="notes-list" class="notes-container flex-grow overflow-y-auto space-y-3 pr-2">
+                    <!-- Notes will be injected here -->
+                    <div class="text-center text-stone-400 mt-10">
+                        <p>No notes yet.</p>
+                        <p class="text-xs mt-1">Journal your journey.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Fixed Bottom Navigation Toolbar -->
+    <nav class="fixed bottom-0 left-0 w-full bg-white border-t border-stone-200 pb-safe z-40">
+        <div class="max-w-3xl mx-auto flex justify-around items-center h-16">
+            <button onclick="switchView('music')" id="nav-music" class="nav-item active w-full h-full flex flex-col items-center justify-center gap-1 text-stone-400 hover:bg-stone-50 transition">
+                <i class="fa-solid fa-music text-xl"></i>
+                <span class="text-xs font-bold">Music</span>
+            </button>
+            <div class="w-[1px] h-8 bg-stone-200"></div>
+            <button onclick="switchView('notes')" id="nav-notes" class="nav-item w-full h-full flex flex-col items-center justify-center gap-1 text-stone-400 hover:bg-stone-50 transition">
+                <i class="fa-solid fa-book text-xl"></i>
+                <span class="text-xs font-bold">Journal</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Footer (Hidden in main view to save space, moving credits to About) -->
+
+    <!-- About Modal -->
+    <div id="about-modal" class="fixed inset-0 bg-black/50 z-[60] hidden flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
+            <h3 class="text-xl font-bold text-emerald-800 mb-2">About Shanti Studio</h3>
+            <p class="text-stone-600 mb-4">A simple tool for yoga teachers to manage music and mindfulness.</p>
+            <ul class="list-disc list-inside text-sm text-stone-500 space-y-2 mb-6">
+                <li>Select playlists curated from Spotify.</li>
+                <li>Notes are saved automatically to your browser (Local Storage).</li>
+                <li>Use the bottom toolbar to switch views.</li>
+            </ul>
+            <button onclick="document.getElementById('about-modal').classList.add('hidden')" class="w-full bg-emerald-100 text-emerald-700 font-bold py-2 rounded-lg hover:bg-emerald-200 transition">Got it, Namaste</button>
+        </div>
+    </div>
+
+    <script>
+        // --- State Management ---
+        const STORAGE_KEY = 'yoga_app_notes';
+        let notes = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+        // --- DOM Elements ---
+        const noteForm = document.getElementById('note-form');
+        const notesList = document.getElementById('notes-list');
+        const dateInput = document.getElementById('note-date');
+        const spotifyFrame = document.getElementById('spotify-frame');
+        const placeholderMsg = document.getElementById('placeholder-msg');
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNotes();
+            // Set date picker to today
+            dateInput.valueAsDate = new Date();
+        });
+
+        // --- View Switching Logic ---
+        function switchView(viewName) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+            // Show selected view
+            document.getElementById(`view-${viewName}`).classList.add('active');
+            document.getElementById(`nav-${viewName}`).classList.add('active');
+            
+            // Scroll to top for better UX on switch
+            window.scrollTo(0, 0);
+        }
+
+        // --- Music Logic ---
+        function loadPlaylist(playlistId) {
+            const embedUrl = `https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`;
+            spotifyFrame.src = embedUrl;
+            spotifyFrame.classList.remove('hidden');
+            placeholderMsg.classList.add('hidden');
+        }
+
+        // --- Note Logic ---
+        noteForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const newNote = {
+                id: Date.now(),
+                date: document.getElementById('note-date').value,
+                type: document.getElementById('note-type').value,
+                content: document.getElementById('note-content').value,
+                timestamp: new Date().getTime()
+            };
+
+            notes.unshift(newNote); // Add to top
+            saveNotes();
+            renderNotes();
+            
+            // Reset content but keep date/type for convenience
+            document.getElementById('note-content').value = '';
+            
+            // Subtle visual feedback
+            const btn = noteForm.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Saved';
+            btn.classList.add('bg-emerald-800');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-emerald-800');
+            }, 1000);
+        });
+
+        function deleteNote(id) {
+            if(confirm('Delete this note?')) {
+                notes = notes.filter(note => note.id !== id);
+                saveNotes();
+                renderNotes();
+            }
+        }
+
+        function clearAllNotes() {
+            if(notes.length === 0) return;
+            if(confirm('Are you sure you want to delete all history?')) {
+                notes = [];
+                saveNotes();
+                renderNotes();
+            }
+        }
+
+        function saveNotes() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+        }
+
+        function renderNotes() {
+            if (notes.length === 0) {
+                notesList.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-stone-300 space-y-2">
+                        <i class="fa-solid fa-book-open text-3xl"></i>
+                        <p>No notes recorded yet.</p>
+                    </div>`;
+                return;
+            }
+
+            notesList.innerHTML = notes.map(note => {
+                // Format date nicely
+                const dateObj = new Date(note.date);
+                const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                return `
+                <div class="bg-stone-50 p-4 rounded-xl border-l-4 border-emerald-400 relative group fade-in">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">${note.type}</span>
+                            <span class="text-xs text-stone-400 ml-2">${dateStr}</span>
+                        </div>
+                        <button onclick="deleteNote(${note.id})" class="text-stone-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition px-2">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <p class="text-sm text-stone-700 whitespace-pre-wrap leading-relaxed">${escapeHtml(note.content)}</p>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // Utility to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
+
